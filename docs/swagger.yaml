@@ -1,0 +1,111 @@
+basePath: /api/v1
+definitions:
+  main.album:
+    properties:
+      artist:
+        type: string
+      id:
+        type: string
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+  main.apiError:
+    properties:
+      error:
+        type: string
+      message:
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://example.com
+host: localhost:8080
+info:
+  contact:
+    email: support@example.com
+    name: API Support
+    url: https://example.com
+  description: This is an API Example.
+  license:
+    name: Example License
+    url: https://example.com
+  termsOfService: https://example.com
+  title: Example API
+  version: "1.0"
+paths:
+  /albums:
+    get:
+      description: Gets all albums
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.album'
+      security:
+      - ApiKeyAuth: []
+      summary: Gets all albums
+      tags:
+      - albums
+    post:
+      consumes:
+      - application/json
+      description: Adds a new album
+      parameters:
+      - description: Album to add
+        in: body
+        name: album
+        required: true
+        schema:
+          $ref: '#/definitions/main.album'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/main.album'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.apiError'
+      security:
+      - ApiKeyAuth: []
+      summary: Adds a new album
+      tags:
+      - albums
+  /albums/{id}:
+    get:
+      description: Gets an album by ID
+      parameters:
+      - description: Album ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.album'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.apiError'
+      security:
+      - ApiKeyAuth: []
+      summary: Gets an album by ID
+      tags:
+      - albums
+securityDefinitions:
+  ApiKeyAuth:
+    description: Use "key1" for read-only access or "key2" for full access.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
